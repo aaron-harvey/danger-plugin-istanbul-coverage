@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "es6",
+    "target": "es2020",
     "module": "commonjs",
     "rootDir": "src",
     "outDir": "dist",
@@ -10,7 +10,7 @@
     "declaration": true,
     "allowSyntheticDefaultImports": true
   },
-  "lib": ["es2017"],
+  "lib": ["es2020"],
   "include": ["src/**/*.ts", "src/**/*.tsx", "dangerfile.ts"],
   "exclude": ["dangerfile.ts", "node_modules", "dist"]
 }

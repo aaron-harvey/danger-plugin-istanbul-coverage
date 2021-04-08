@@ -26,9 +26,9 @@ describe("combineEntries()", () => {
     const result = combineEntries(entry1, entry2)
     expect(result).toEqual({
       lines: { total: 50, covered: 8, skipped: 42, pct: 16 },
-      statements: { total: 30, covered: 11, skipped: 19, pct: 100 * 11 / 30 },
-      branches: { total: 46, covered: 26, skipped: 20, pct: 100 * 26 / 46 },
-      functions: { total: 58, covered: 31, skipped: 27, pct: 100 * 31 / 58 },
+      statements: { total: 30, covered: 11, skipped: 19, pct: (100 * 11) / 30 },
+      branches: { total: 46, covered: 26, skipped: 20, pct: (100 * 26) / 46 },
+      functions: { total: 58, covered: 31, skipped: 27, pct: (100 * 31) / 58 },
     })
   })
 

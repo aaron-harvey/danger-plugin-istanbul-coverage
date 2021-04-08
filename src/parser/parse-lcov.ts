@@ -88,12 +88,12 @@ function splitLine(line: string): Line | undefined {
     return { token, parts: [] }
   }
   let parts = expectedParts > 1 ? remainder.split(",") : [remainder]
-  parts = parts.map(part => part.trim())
+  parts = parts.map((part) => part.trim())
   return { token, parts }
 }
 
 function makeCoverageItem(total: number, covered: number): CoverageItem {
-  return { total, covered, skipped: total - covered, pct: covered / total * 100 }
+  return { total, covered, skipped: total - covered, pct: (covered / total) * 100 }
 }
 
 function convertToCollection(lines: Line[]): CoverageCollection {
@@ -107,7 +107,7 @@ function convertToCollection(lines: Line[]): CoverageCollection {
 
   const collection: CoverageCollection = {}
 
-  lines.forEach(line => {
+  lines.forEach((line) => {
     switch (line.token) {
       case LcovToken.SOURCE_FILE:
         file = line.parts[0]
@@ -175,7 +175,7 @@ export function parseLcov(coveragePath: string): CoverageCollection {
     const lines: Line[] = content
       .split("\n")
       .map(splitLine)
-      .filter(line => line !== undefined) as Line[]
+      .filter((line) => line !== undefined) as Line[]
     return convertToCollection(lines)
   } catch (error) {
     throw Error(`Coverage data had invalid formatting at path '${coveragePath}'`)

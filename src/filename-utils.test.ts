@@ -63,7 +63,7 @@ describe("normalizeGitRootOutput", () => {
     expect(output).toEqual("/some/root/directory /")
   })
 
-  it("won't concatenate a second path seperator ", () => {
+  it("won't concatenate a second path seperator", () => {
     const output = parseGitRootPathOutput("/some/root/directory/\n", "/")
     expect(output).toEqual("/some/root/directory/")
   })

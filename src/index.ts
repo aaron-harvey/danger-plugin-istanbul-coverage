@@ -20,7 +20,7 @@ import {
 } from "./coverage.model"
 import { parseJsonSummary } from "./parser/parse-json-summary"
 
-declare var danger: DangerDSLType
+declare let danger: DangerDSLType
 import * as _ from "lodash"
 import * as path from "path"
 import { escapeMarkdownCharacters, getPrettyPathName } from "./filename-utils"
@@ -33,7 +33,9 @@ export declare function fail(message: string): void
 export declare function markdown(message: string): void
 
 function filterForCoveredFiles(basePath: string, files: string[], coverage: CoverageCollection): string[] {
-  return files.map(filename => path.resolve(basePath, filename)).filter(filename => coverage[filename] !== undefined)
+  return files
+    .map((filename) => path.resolve(basePath, filename))
+    .filter((filename) => coverage[filename] !== undefined)
 }
 
 function getFileSet(reportChangeType: ReportFileSet, all: string[], modified: string[], created: string[]): string[] {
@@ -114,7 +116,7 @@ function generateReport(basePath: string, branch: string, coverage: CoverageMode
 File | Line Coverage | Statement Coverage | Function Coverage | Branch Coverage
 ---- | ------------: | -----------------: | ----------------: | --------------:`
 
-  const lines = Object.keys(coverage.displayed).map(filename => {
+  const lines = Object.keys(coverage.displayed).map((filename) => {
     const e = coverage.displayed[filename]
     const shortFilename = formatSourceName(path.relative(basePath, filename))
     const linkFilename = formatLinkName(path.relative(basePath, filename), branch)
@@ -145,11 +147,11 @@ File | Line Coverage | Statement Coverage | Function Coverage | Branch Coverage
     formatItem(coverage.total.functions),
     formatItem(coverage.total.branches),
   ].join(" | ")
-  return [header, ...lines, ellided, total, ""].filter(part => part !== undefined).join("\n")
+  return [header, ...lines, ellided, total, ""].filter((part) => part !== undefined).join("\n")
 }
 
 function getCoveragePaths(coveragePaths: SourcePath[]): SourcePathExplicit[] {
-  return coveragePaths.map(singleCoveragePath => {
+  return coveragePaths.map((singleCoveragePath) => {
     let originalPath: string
     let type: SourceType
     if (typeof singleCoveragePath === "string") {
@@ -179,7 +181,7 @@ function parseSourcePath(sourcePath: SourcePathExplicit): CoverageCollection {
 
 function getCombinedCoverageCollection(coveragePaths: SourcePathExplicit[]): CoverageCollection {
   return coveragePaths
-    .map(coveragePath => parseSourcePath(coveragePath))
+    .map((coveragePath) => parseSourcePath(coveragePath))
     .reduce((previous, current) => ({ ...previous, ...current }), {})
 }
 
@@ -206,12 +208,12 @@ export function istanbulCoverage(config?: Partial<Config>): Promise<void> {
 
   const gitProperties = Promise.all([gitService.getRootDirectory(), gitService.getCurrentCommit()])
 
-  return gitProperties.then(values => {
+  return gitProperties.then((values) => {
     const gitRoot = values[0]
     const gitBranch = values[1]
     const modifiedFiles = filterForCoveredFiles(gitRoot, danger.git.modified_files, coverage)
     const createdFiles = filterForCoveredFiles(gitRoot, danger.git.created_files, coverage)
-    const allFiles = Object.keys(coverage).filter(filename => filename !== "total")
+    const allFiles = Object.keys(coverage).filter((filename) => filename !== "total")
 
     const files = getFileSet(combinedConfig.reportFileSet, allFiles, modifiedFiles, createdFiles)
 

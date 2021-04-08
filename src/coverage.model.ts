@@ -30,7 +30,7 @@ export interface CoverageModel {
 
 function combineItems(first: CoverageItem, second: CoverageItem): CoverageItem {
   const percentage =
-    second.covered + first.covered > 0 ? 100 * (first.covered + second.covered) / (second.total + first.total) : 100
+    second.covered + first.covered > 0 ? (100 * (first.covered + second.covered)) / (second.total + first.total) : 100
   return {
     total: first.total + second.total,
     covered: first.covered + second.covered,
@@ -68,11 +68,11 @@ function sortFileByCoverageKey(
   key: string
 ) {
   return files
-    .map(file => {
+    .map((file) => {
       return { file, entry: coverageCollection[file] }
     })
     .sort((a, b) => (ascending ? a.entry.lines[key] - b.entry.lines[key] : b.entry.lines[key] - a.entry.lines[key]))
-    .map(entry => entry.file)
+    .map((entry) => entry.file)
 }
 
 function sortFilesAlphabetically(files: string[]): string[] {
@@ -112,8 +112,8 @@ export function makeCoverageModel(
   const sortedFiles = sortFiles(files, coverageCollection, sortMethod)
 
   const displayedFiles = sortedFiles.slice(0, Math.min(sortedFiles.length, numberOfEntries))
-  const displayedEntries = displayedFiles.map(file => coverageCollection[file])
-  const ellidedEntries = sortedFiles.slice(numberOfEntries).map(file => coverageCollection[file])
+  const displayedEntries = displayedFiles.map((file) => coverageCollection[file])
+  const ellidedEntries = sortedFiles.slice(numberOfEntries).map((file) => coverageCollection[file])
 
   const ellidedSummary = reduceEntries(ellidedEntries)
   const totalSummary = reduceEntries([...displayedEntries, ellidedSummary])

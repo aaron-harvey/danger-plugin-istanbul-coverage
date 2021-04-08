@@ -49,7 +49,7 @@ export function getPrettyPathName(pathName: string, maxLength: number): string {
  */
 export function escapeMarkdownCharacters(source: string) {
   const escapedCharacters = ["|", "(", ")", "[", "]", "#", "*", "{", "}", "-", "+", "_", "!", "\\", "`"]
-  return [...source].map(c => (_.includes(escapedCharacters, c) ? `\\${c}` : c)).join("")
+  return [...source].map((c) => (_.includes(escapedCharacters, c) ? `\\${c}` : c)).join("")
 }
 
 /**

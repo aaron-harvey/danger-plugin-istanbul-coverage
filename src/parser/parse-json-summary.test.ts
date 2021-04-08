@@ -6,8 +6,8 @@ jest.mock("../filesystem.service")
 function setupCoverageFile(coverage: string | undefined) {
   ;(FilesystemService as any).mockImplementation(() => {
     return {
-      exists: p => coverage !== undefined,
-      read: p => (coverage !== undefined ? Buffer.from(coverage, "utf8") : undefined),
+      exists: (p) => coverage !== undefined,
+      read: (p) => (coverage !== undefined ? Buffer.from(coverage, "utf8") : undefined),
     }
   })
 }
@@ -46,7 +46,7 @@ describe("parseJsonSummary", () => {
     expect(() => parseJsonSummary("randomName")).toThrow()
   })
 
-  it("throws an error when coverage entry isn't object ", () => {
+  it("throws an error when coverage entry isn't object", () => {
     setupCoverageFile(`{
       "f1": [
         { "lines": { "total": 100, "covered": 0, "skipped": 0, "pct": 0 } },
@@ -58,7 +58,7 @@ describe("parseJsonSummary", () => {
     expect(() => parseJsonSummary("randomName")).toThrow()
   })
 
-  it("throws an error when coverage entry is missing 'lines' property ", () => {
+  it("throws an error when coverage entry is missing 'lines' property", () => {
     setupCoverageFile(`{
       "f1": {
         "functions": { "total": 100, "covered": 1, "skipped": 0, "pct": 1 },
@@ -69,7 +69,7 @@ describe("parseJsonSummary", () => {
     expect(() => parseJsonSummary("randomName")).toThrow()
   })
 
-  it("throws an error when coverage item isn't an object ", () => {
+  it("throws an error when coverage item isn't an object", () => {
     setupCoverageFile(`{
       "f1": {
         "lines": "not an object",
@@ -81,7 +81,7 @@ describe("parseJsonSummary", () => {
     expect(() => parseJsonSummary("randomName")).toThrow()
   })
 
-  it("throws an error when coverage item is missing 'total' property ", () => {
+  it("throws an error when coverage item is missing 'total' property", () => {
     setupCoverageFile(`{
       "f1": {
         "lines": { "covered": 1, "skipped": 0, "pct": 1 },
@@ -93,7 +93,7 @@ describe("parseJsonSummary", () => {
     expect(() => parseJsonSummary("randomName")).toThrow()
   })
 
-  it("throws an error when coverage item is missing has non number property ", () => {
+  it("throws an error when coverage item is missing has non number property", () => {
     setupCoverageFile(`{
       "f1": {
         "lines": { "total": "this-is-an-invalid-string", "covered": 1, "skipped": 0, "pct": 1 },

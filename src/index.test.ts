@@ -49,8 +49,8 @@ function setupGitService() {
 function setupCoverageFile(coverages: string[] = []) {
   ;(FilesystemService as any).mockImplementation(() => {
     return {
-      exists: p => coverages.length !== 0,
-      read: p => {
+      exists: (p) => coverages.length !== 0,
+      read: (p) => {
         const coverage = coverages.pop()
         return coverage !== undefined ? coverage : undefined
       },
@@ -338,7 +338,7 @@ Total | (355/500) 71% | (275/500) 55% | (200/500) 40% | (175/500) 35%
     expect(global.message).toBeCalledWith(customMessage)
   })
 
-  it('doesn\'t output anything when reportFileSet is set to "created" and there are no created files ', async () => {
+  it('doesn\'t output anything when reportFileSet is set to "created" and there are no created files', async () => {
     global.danger.git.created_files = []
     await istanbulCoverage({
       reportMode: "fail",
@@ -349,7 +349,7 @@ Total | (355/500) 71% | (275/500) 55% | (200/500) 40% | (175/500) 35%
     expect(global.message).not.toBeCalled()
   })
 
-  it('doesn\'t output anything when reportFileSet is set to "modified" and there are no modified files ', async () => {
+  it('doesn\'t output anything when reportFileSet is set to "modified" and there are no modified files', async () => {
     global.danger.git.modified_files = []
     await istanbulCoverage({
       reportMode: "fail",
