@@ -47,13 +47,15 @@ function isCoverageCollection(collection: any): collection is CoverageCollection
   if (!isObject(collection)) {
     return false
   }
+  let hasValidFiles = false
   for (const key of Object.keys(collection)) {
     const entry = collection[key]
     if (!isCoverageEntry(entry)) {
-      return false
+      continue
     }
+    hasValidFiles = true
   }
-  return true
+  return hasValidFiles
 }
 
 /**
@@ -62,7 +64,7 @@ function isCoverageCollection(collection: any): collection is CoverageCollection
  * @returns A coverage collection
  * @throws Throws an error if formatting is invalid.
  */
-export function parseJsonSummary(coveragePath: string): CoverageCollection {
+export function parseJsonSummary(coveragePath: string): CoverageCollection | null {
   const filesystem = new FilesystemService()
 
   if (!filesystem.exists(coveragePath)) {
@@ -83,6 +85,6 @@ export function parseJsonSummary(coveragePath: string): CoverageCollection {
   if (isCoverageCollection(json)) {
     return json
   } else {
-    throw Error(`Coverage data had invalid formatting at path '${coveragePath}'`)
+    return null
   }
 }

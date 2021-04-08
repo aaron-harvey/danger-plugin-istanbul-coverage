@@ -171,7 +171,7 @@ function getCoveragePaths(coveragePaths: SourcePath[]): SourcePathExplicit[] {
   })
 }
 
-function parseSourcePath(sourcePath: SourcePathExplicit): CoverageCollection {
+function parseSourcePath(sourcePath: SourcePathExplicit): CoverageCollection | null {
   if (sourcePath.type === "json-summary") {
     return parseJsonSummary(sourcePath.path)
   } else {
@@ -182,6 +182,7 @@ function parseSourcePath(sourcePath: SourcePathExplicit): CoverageCollection {
 function getCombinedCoverageCollection(coveragePaths: SourcePathExplicit[]): CoverageCollection {
   return coveragePaths
     .map((coveragePath) => parseSourcePath(coveragePath))
+    .filter((i): i is CoverageCollection => !!i)
     .reduce((previous, current) => ({ ...previous, ...current }), {})
 }
 

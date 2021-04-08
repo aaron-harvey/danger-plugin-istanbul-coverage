@@ -16,6 +16,12 @@ describe("parseJsonSummary", () => {
   it("parses a correctly formatted json object", () => {
     setupCoverageFile(`
     {
+      "total": {
+        "lines":{ "total":125, "covered":125, "skipped":0, "pct":100 },
+        "statements":{ "total":149, "covered":149, "skipped":0, "pct":100 },
+        "functions":{ "total":26, "covered":26, "skipped":0, "pct":100 },
+        "branches":{ "total":36, "covered":34, "skipped":0, "pct":94.44 }
+      },
       "f1": {
         "lines": { "total": 100, "covered": 0, "skipped": 0, "pct": 0 },
         "functions": { "total": 100, "covered": 1, "skipped": 0, "pct": 1 },
@@ -26,6 +32,12 @@ describe("parseJsonSummary", () => {
     `)
     const output = parseJsonSummary("randomName")
     expect(output).toEqual({
+      total: {
+        lines: { total: 125, covered: 125, skipped: 0, pct: 100 },
+        statements: { total: 149, covered: 149, skipped: 0, pct: 100 },
+        functions: { total: 26, covered: 26, skipped: 0, pct: 100 },
+        branches: { total: 36, covered: 34, skipped: 0, pct: 94.44 },
+      },
       f1: {
         lines: { total: 100, covered: 0, skipped: 0, pct: 0 },
         functions: { total: 100, covered: 1, skipped: 0, pct: 1 },
